@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ctf-toolkit-gabrycoso"
+version = "0.1.0"
+description = "Practical Python helpers for OliCyber-style CTF challenges"
+readme = "ctf_toolkit/README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "gabrycoso" }]
+dependencies = [
+  "requests>=2.28",
+]
+
+[project.optional-dependencies]
+crypto = [
+  "pycryptodome>=3.19",
+]
+ocr = [
+  "pillow>=10.0",
+  "pytesseract>=0.3.10",
+]
+all = [
+  "pycryptodome>=3.19",
+  "pillow>=10.0",
+  "pytesseract>=0.3.10",
+]
+
+[project.scripts]
+ctf-toolkit = "ctf_toolkit.__main__:main"
+
+[tool.setuptools]
+packages = ["ctf_toolkit"]

@@ -1,54 +1,55 @@
 # ctf_toolkit
 
-Toolkit Python pensato per challenge in stile OliCyber (crypto, web, network, binary/misc).
+A comprehensive Python toolkit designed for OliCyber-style CTF challenges (cryptography, web, networking, binary exploitation, and miscellaneous).
 
-## Uso rapido
+## Quick Start
 
-## Installazione (globale utente)
+### Installation (User Global)
 
-Dalla root del progetto:
+From the project root:
 
 ```bash
 pip3 install --user --break-system-packages -e .
 ```
 
-Verifica da qualunque cartella:
+Verify installation from any directory:
 
 ```bash
 cd /tmp
 python3 -c "import ctf_toolkit; print('ok')"
 ```
 
-Nota: su Debian/Ubuntu recenti il flag `--break-system-packages` e spesso necessario
-per installazioni user-level fuori da virtualenv (PEP 668).
+**Note:** On recent Debian/Ubuntu systems, the `--break-system-packages` flag is often necessary for user-level installations outside of virtualenv (PEP 668).
 
-Dalla root del workspace (`/home/gabrycoso/olicyber-utilities-1`):
+### Import
+
+From the root of the workspace:
 
 ```python
 from ctf_toolkit import *
 ```
 
-Oppure moduli specifici:
+Or import specific modules:
 
 ```python
 from ctf_toolkit.encoding import xor_with_key, single_byte_xor_bruteforce
 from ctf_toolkit.crypto_math import modinv, crt, int_nth_root
 ```
 
-## CLI rapida
+## Quick CLI
 
 ```bash
-python -m ctf_toolkit xor "ciao" "k"
-python -m ctf_toolkit xor "ciao" "k" --hex
+python -m ctf_toolkit xor "hello" "key"
+python -m ctf_toolkit xor "hello" "key" --hex
 python -m ctf_toolkit b64 "hello"
 python -m ctf_toolkit b64 "aGVsbG8=" --decode
 python -m ctf_toolkit rot "uryyb" -n 13
 python -m ctf_toolkit flag "text... flag{demo} ..."
 ```
 
-## Snippet utili
+## Useful Code Snippets
 
-### 1) Single-byte XOR
+### 1) Single-byte XOR Brute Force
 
 ```python
 from ctf_toolkit import hex_to_bytes, single_byte_xor_bruteforce
@@ -58,7 +59,7 @@ key, pt, score = single_byte_xor_bruteforce(ct)
 print(key, pt.decode(errors="ignore"), score)
 ```
 
-### 2) Repeating-key XOR (keysize guess)
+### 2) Repeating-key XOR (Key Size Guess)
 
 ```python
 from ctf_toolkit import repeating_key_xor_keysize_guess
@@ -67,7 +68,7 @@ best = repeating_key_xor_keysize_guess(cipher_bytes)
 print(best[:5])  # [(keysize, distance), ...]
 ```
 
-### 3) RSA base
+### 3) Basic RSA
 
 ```python
 from ctf_toolkit import modinv, rsa_decrypt_int, int_to_bytes
@@ -77,7 +78,7 @@ m = rsa_decrypt_int(c, d, n)
 print(int_to_bytes(m))
 ```
 
-### 4) CRT + low exponent
+### 4) Chinese Remainder Theorem + Low Exponent
 
 ```python
 from ctf_toolkit import crt, int_nth_root, int_to_bytes
@@ -88,7 +89,7 @@ if exact:
     print(int_to_bytes(m))
 ```
 
-### 5) DNS exfil da testo Wireshark/tshark
+### 5) DNS Exfiltration from Wireshark/tshark Text
 
 ```python
 from ctf_toolkit import parse_dns_qnames_from_text, reassemble_subdomain_hex
@@ -98,6 +99,71 @@ qnames = parse_dns_qnames_from_text(text)
 raw = reassemble_subdomain_hex(qnames, domain_suffix="attacker.eve")
 print(raw)
 ```
+
+## Features
+
+### Encoding & Decoding
+- Hex, Base64, Base32, Base85 and other encoding/decoding utilities
+- XOR operations (single-byte, repeating-key)
+- ROT-n and other rotation ciphers
+- Hamming distance and other byte manipulation helpers
+
+### Cryptography & Number Theory
+- RSA encryption/decryption
+- Chinese Remainder Theorem (CRT)
+- Modular inverse (Extended Euclidean Algorithm)
+- Fermat and Pollard's Rho factorization
+- Integer nth root calculations
+- Primality testing
+
+### Binary Exploitation
+- Packing/unpacking integers (p8, p16, p32, p64, u16, u32, u64)
+- De Bruijn pattern generation for offset discovery
+- Format string offset calculation
+
+### Forensics
+- File type detection (PNG, ZIP, ELF, GIF, JPG)
+- Shannon entropy calculation
+- ASCII string extraction
+- Single-byte XOR brute force for headers
+
+### Networking
+- TCP/UDP socket helpers
+- DNS query name parsing from tshark/Wireshark exports
+- Subdomain hex reassembly for DNS exfiltration
+
+### Web Challenges
+- HTTP session and retry helpers
+- SQL injection payload generation
+- Prefix oracle brute forcing
+- Lightweight automation utilities
+
+### Challenge Patterns
+- Automatic decoding of stacked encodings/compressions (gzip, tar, zlib, base64)
+- Round operation scheduling
+- Hex string normalization
+
+## Project Structure
+
+```
+ctf_toolkit/
+├── encoding.py          # Hex, Base64, XOR, ROT, and byte helpers
+├── crypto_math.py       # RSA, CRT, factorization, modular arithmetic
+├── chunked_crypto.py    # Encrypted file chunk processing
+├── challenge_patterns.py # Reusable CTF challenge patterns
+├── forensics.py         # File type detection and binary analysis
+├── networking.py        # Socket and DNS helpers
+├── pwn_helpers.py       # Binary exploitation utilities
+├── web.py              # HTTP and web challenge helpers
+├── ghidra_tools.py     # Ghidra script integration
+├── io_helpers.py       # File I/O and text processing
+├── __main__.py         # CLI interface
+└── __init__.py         # Module initialization
+```
+
+## License
+
+MIT
 
 ### 6) Brute-force prefisso (oracle)
 

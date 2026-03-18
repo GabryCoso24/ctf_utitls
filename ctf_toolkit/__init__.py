@@ -39,6 +39,8 @@ from .challenge_patterns import (
     timed_oracle,
 )
 from .encoding import (
+    DecryptionResult,
+    auto_decrypt_hex,
     b32d,
     b32e,
     b64d,
@@ -47,6 +49,7 @@ from .encoding import (
     b85e,
     bytes_to_hex,
     chunked,
+    detect_hex_encryption,
     hamming_distance,
     hex_to_bytes,
     printable_ratio,
@@ -133,6 +136,8 @@ __all__ = [
     "ELF_MAGIC",
     "PNG_MAGIC",
     "ZIP_MAGIC",
+    "DecryptionResult",
+    "auto_decrypt_hex",
     "b32d",
     "b32e",
     "b64d",
@@ -198,6 +203,7 @@ __all__ = [
     "post_with_retry",
     "printable_charset",
     "printable_ratio",
+    "detect_hex_encryption",
     "SQLiApiClient",
     "read_bytes",
     "read_text",
